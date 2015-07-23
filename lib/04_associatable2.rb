@@ -10,13 +10,13 @@ module Associatable
 
  	 	through_options = self.class.assoc_options[through_name]
  	 	through_table = through_options.table_name
- 	 	through_fk = through_options.foreign_key.to_s
- 	 	through_pk = through_options.primary_key.to_s
+ 	 	through_fk = through_options.foreign_key
+ 	 	through_pk = through_options.primary_key
 
  	 	source_options = through_options.model_class.assoc_options[source_name]
  	 	source_table = source_options.table_name
- 	 	source_fk = source_options.foreign_key.to_s
- 	 	source_pk = source_options.primary_key.to_s
+ 	 	source_fk = source_options.foreign_key
+ 	 	source_pk = source_options.primary_key
 
     	result = DBConnection.execute(<<-SQL, self.owner_id)
 			SELECT
