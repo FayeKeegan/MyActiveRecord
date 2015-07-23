@@ -9,12 +9,12 @@ module Associatable
  	 	self_name = self.class.table_name.singularize
 
  	 	through_options = self.class.assoc_options[through_name]
- 	 	through_table = through_options.class_name.downcase + "s"
+ 	 	through_table = through_options.table_name
  	 	through_fk = through_options.foreign_key.to_s
  	 	through_pk = through_options.primary_key.to_s
 
  	 	source_options = through_options.model_class.assoc_options[source_name]
- 	 	source_table = source_options.class_name.downcase + "s"
+ 	 	source_table = source_options.table_name
  	 	source_fk = source_options.foreign_key.to_s
  	 	source_pk = source_options.primary_key.to_s
 
