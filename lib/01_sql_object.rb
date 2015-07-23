@@ -35,7 +35,7 @@ class SQLObject
 
   def self.table_name
     if instance_variable_get("@table_name").nil?
-      self.table_name = self.to_s.pluralize.downcase
+      self.table_name = self.to_s.tableize
     end
     instance_variable_get("@table_name")
   end

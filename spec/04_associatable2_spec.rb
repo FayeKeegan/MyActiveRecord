@@ -1,4 +1,5 @@
 require '04_associatable2'
+require 'byebug'
 
 describe 'Associatable' do
   before(:each) { DBConnection.reset }
@@ -31,7 +32,6 @@ describe 'Associatable' do
     it 'defaults to empty hash' do
       class TempClass < SQLObject
       end
-
       expect(TempClass.assoc_options).to eq({})
     end
 

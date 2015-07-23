@@ -17,6 +17,8 @@ class AssocOptions
   def table_name
     class_name.downcase.underscore + "s"
   end
+
+
 end
 
 class BelongsToOptions < AssocOptions
@@ -37,7 +39,7 @@ end
 class HasManyOptions < AssocOptions
   def initialize(name, self_class_name, options = {})
       defaults = {
-        foreign_key: (self_class_name.to_s.downcase.underscore + "_id").to_sym,
+        foreign_key: (self_class_name.to_s.downcase + "_id").to_sym,
         primary_key: :id,
         class_name: name.to_s.camelcase.singularize
       }
@@ -52,6 +54,7 @@ module Associatable
   # Phase IIIb
   def belongs_to(name, options = {})
     options = BelongsToOptions.new(name, options)
+    assoc_options[name.to_sym] = options
     define_method(name) do 
       fk = options.foreign_key
       pk = options.primary_key
@@ -61,19 +64,24 @@ module Associatable
   end
 
   def has_many(name, options = {})
-    options = HasManyOptions.new(name, self.class.name, options)
+    options = HasManyOptions.new(name, self.to_s, options)
+    assoc_options[name.to_sym] = options
     define_method(name) do
       pk = options.foreign_key
       fk = options.primary_key
       class_name = options.model_class
       class_name.send("where", {pk => self.send(fk.to_s)})
     end
-
   end
 
   def assoc_options
-    # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
+    @assoc_options ||= {}
   end
+
+  def assoc_options=(given_options)
+    @assoc_options = given_options
+  end
+
 end
 
 class SQLObject
